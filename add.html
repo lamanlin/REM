@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>增加客户页面</title>
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<h2 style="display: block; width: 300px;margin:50px auto;margin-bottom:20px;color:#29b184">请输入您要增加的客户信息</h2>
+<ul id="box">
+    <li>
+        <span>姓名</span><input type="text" id="userName"/>
+    </li>
+    <li>
+        <span>年龄</span><input type="text" id="userAge"/>
+    </li>
+    <li>
+        <span>电话</span><input type="text" id="userTel"/>
+    </li>
+    <li>
+        <span>地址</span><input type="text" id="userAddress"/>
+    </li>
+</ul>
+<div class="submit" id="submit">提交</div>
+<script charset="UTF-8" type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script charset="UTF-8" type="text/javascript">
+    //在原型上扩展获取URL地址问号传参，并解析的方法
+    String.prototype.queryURLParameter = function () {
+        var reg = /([^?#&=]+)=([^?#&=]+)/g,
+            obj = {};
+        this.replace(reg, function () {
+            var key = arguments[1],
+                value = arguments[2];
+            obj[key] = value;
+
+        });
+        return obj;
+    };
+
+
+    var submit = document.getElementById("submit"),
+        userName = document.getElementById("userName"),
+        userAge = document.getElementById("userAge"),
+        userTel = document.getElementById("userTel"),
+        userAddress = document.getElementById("userAddress");
+
+    //根据传进来的地址的ID判断是修改还是增加  flag=true为修改
+    var urlObj = window.location.href.queryURLParameter();
+    var customerId = urlObj["id"],
+        flag = false;
+    flag = typeof customerId === "undefined" ? false : true;
+    //进来先把该客户的数据显示在表格上
+    if (flag) {
+        $.ajax({
+            url: "/getInfo?id=" + customerId,
+            success: function (jsonData) {
+                userName.value = jsonData["data"]["name"];
+                userAge.value = jsonData["data"]["age"];
+                userTel.value = jsonData["data"]["tel"];
+                userAddress.value = jsonData["data"]["address"];
+            }
+        })
+    }
+
+
+    //点击提交按钮发送请求
+
+    submit.onclick = (function () {
+        var obj = {
+            name: userName.value,
+            age: userAge.value,
+            tel: userTel.value,
+            address: userAddress.value
+        };
+
+
+        if (flag){
+            $.ajax({
+               url:"/updateInfo?id="+customerId,
+               type:"post",
+               data: JSON.stringify(obj),
+                success:function (jsonData) {
+                    if (jsonData && jsonData["code"] == 0) {
+
+                        alert(jsonData.msg);
+                        window.location.href = "index.html";
+                        return;
+                    }
+                }
+            });
+        }
+        $.ajax({
+            url: "/addInfo",
+            type: "post",
+            data: JSON.stringify(obj),
+            success: function (jsonData) {
+                if (jsonData && jsonData["code"] == 0) {
+
+                    alert(jsonData.msg);
+                    window.location.href = "index.html";
+                    return;
+                }
+            }
+        })
+    });
+
+</script>
+</body>
+</html>

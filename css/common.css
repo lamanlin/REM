@@ -1,0 +1,162 @@
+@charset "UTF-8";
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+div, h1, h2, span, a, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+a, a:hover, a:target, a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+ul, li {
+    list-style: none;
+}
+
+.box {
+    margin: 10px auto;
+    width: 800px;
+}
+
+.box .big-header {
+    margin-bottom: 10px;
+    width: 700px;
+    height: 80px;
+    text-align: center;
+    line-height: 80px;
+}
+
+.box .big-header h1 {
+    font-size: 58px;
+    color: #29b184;
+}
+
+.content {
+    padding: 0 10px;
+    width: 700px;
+    border: 1px solid #29b184;
+    background-color: blanchedalmond;
+    border-radius: 4px;
+}
+
+.content .header {
+    display: block;
+    width: 700px;
+    line-height: 30px;
+    overflow: hidden;
+}
+
+.content .header a {
+    display: block;
+    height: 30px;
+    font-size: 18px;
+    color: #29b184;
+}
+
+.content .header span {
+    background-color: #e899b6;
+}
+
+.content .header span, .inner-content li span {
+    float: left;
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
+    color: #fff;
+}
+.content .inner-content{
+    padding-bottom: 20px;
+    width: 700px;
+    overflow: hidden;
+}
+
+.inner-content li span {
+    color: #000;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.inner-content li span a {
+    display: inline-block;
+    margin-right: 5px;
+    height: 30px;
+}
+.content .header span.w50, .inner-content li span.w50 {
+    width: 50px;
+}
+
+.content .header span.w100, .inner-content li span.w100 {
+    width: 100px;
+}
+
+.content .header span.w200, .inner-content li span.w200 {
+    width: 200px;
+}
+
+.content .inner-content li {
+    display: block;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    background-color: #fff0f5;
+}
+.content .inner-content li:nth-child(even) {
+    background-color: #e9e9e9;
+}
+.content .inner-content li:hover{
+    background-color: khaki;
+}
+/*add页面的样式 */
+#box{
+    margin: 0 auto;
+    padding: 10px;
+    width: 400px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    background: #c7f8be;
+}
+#box li{
+    height: 40px;
+    line-height: 40px;
+    background: #fff0f5;
+}
+#box li:nth-child(even) {
+    background-color: #ccc;
+}
+#box li span{
+    display: inline-block;
+    width: 50px;
+    font-size: 16px;
+}
+#box li #userName,#box li #userAge{
+    width: 80px;
+}
+#box li #userAddress,#box li #userTel{
+    width: 240px;
+}
+.submit{
+    margin: 10px auto;
+    padding: 0 10px;
+    width: 400px;
+    height: 40px;
+    background: #8ea1e4;
+    border-radius: 4px;
+    font-size: 18px;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+}
+.submit:hover{
+    color: #fff;
+    background-color: #4f47ff;
+}

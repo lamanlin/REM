@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRM自己写</title>
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div class="box">
+    <div class="big-header"><h1>简易版CRM系统</h1></div>
+    <div class="content">
+        <h2 class="header"><a href="add.html">增加客户</a>
+            <span class="w50">编号</span>
+            <span class="w100">姓名</span>
+            <span class="w50">年龄</span>
+            <span class="w200">电话</span>
+            <span class="w200">地址</span>
+            <span class="w100">操作</span>
+        </h2>
+
+        <ul class="inner-content" id="innerList">
+
+            <!--<li>
+                <span class="w50">1</span>
+                <span class="w100">姓名</span>
+                <span class="w50">年龄</span>
+                <span class="w200">电话</span>
+                <span class="w200">地址</span>
+                <span class="w100">
+                    <a href="add.html">删除</a>
+                    <a href="javascript:;">修改</a>
+                </span>
+            </li>-->
+        </ul>
+    </div>
+</div>
+
+<script charset="UTF-8" type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    var customerMod = (function () {
+        var contentList = document.getElementById("innerList"),
+            oLis = contentList.getElementsByTagName("li");
+
+        //删除信息
+        function deleteInfo() {
+            for (var i = 0; i < oLis.length; i++) {
+                oLis["index"] = i;
+                oLis[i].onclick= function (e) {
+                    e = e || window.event;
+                    var target = e.target || e.srcElement,
+                        targetTag = target.tagName.toUpperCase();
+                    if (targetTag === "A" && target.innerHTML === "删除") {
+                        var customerId = target.getAttribute("customerId");
+                        var flag = window.confirm("确定要删除第" + customerId + "项信息吗？");
+                        if (flag) {
+                            $.ajax({
+                                url: "/deleteInfo?id=" + customerId,
+                                dataType: "json",
+                                error:function (data) {
+                                    console.log(data)
+                                },
+                                success: function (jsonData) {
+                                    if (jsonData) {
+                                        contentList.removeChild(target.parentNode.parentNode);
+                                        return;
+                                    }
+                                    alert(jsonData.msg);
+                                }
+                            })
+                        }
+                    }
+                }
+
+            }
+        }
+
+        //绑定数据到HTML页面中
+        function bindHtml(data) {
+            var str = '';
+            for (var i = 0; i < data.length; i++) {
+                var curData = data[i];
+                str += '<li>';
+                str += '<span class="w50">' + curData["id"] + '</span>';
+                str += '<span class="w100">' + curData["name"] + '</span>';
+                str += '<span class="w50">' + curData["age"] + '</span>';
+                str += '<span class="w200">' + curData["tel"] + '</span>';
+                str += '<span class="w200">' + curData["address"] + '</span>';
+                str += '<span class="w100">';
+                str += '<a href="javascript:;" customerId="' + curData["id"] + '">删除</a>';
+                str += '<a href= "add.html?id=' + curData["id"] + '">修改</a>';
+                str += '</span>';
+                str += '</li>';
+            }
+            contentList.innerHTML = str;
+        }
+
+        //模块入口  send Ajax
+        function init() {
+            $.ajax({
+                url: "/getData",
+                success: function (jsonData) {
+                    if (jsonData) {
+                        var data = jsonData["data"];
+                        bindHtml(data);
+                        deleteInfo();
+                    }
+                }
+            });
+        }
+
+        return {
+
+            init: init
+        }
+    })();
+    customerMod.init();
+</script>
+</body>
+</html>
